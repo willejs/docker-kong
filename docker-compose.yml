@@ -1,0 +1,13 @@
+kong-cassandra:
+  image: cassandra:2.2.4
+  environment:
+    - MAX_HEAP_SIZE=128m
+    - HEAP_NEWSIZE=20m
+kong:
+  image: mashape/kong
+  links:
+    - kong-cassandra:cassandra
+  ports:
+    - 8800:8000
+    - 8801:8001
+  command: sh -c 'until nc --recv-only -i 0.1 cassandra 9042 2>&1 >/dev/null|grep timeout >/dev/null; do :; done; kong start && tail -f /usr/local/kong/logs/error.log'
