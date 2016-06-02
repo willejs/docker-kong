@@ -1,7 +1,14 @@
-database: cassandra
-cassandra:
-  contact_points:
-    - "cassandra:9042"
+#database: cassandra
+#cassandra:
+#  contact_points:
+#    - "cassandra:9042"
+database: postgres
+postgres:
+  host: postgres
+  port: 5432
+  user: kong
+  password: kong
+  database: kong
 nginx: |
   {{user}}
   worker_processes auto;
