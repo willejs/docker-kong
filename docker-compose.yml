@@ -21,6 +21,6 @@ services:
       - DATABASE=postgres
     volumes:
       - ./config.docker/kong.yml:/etc/kong/kong.yml
-    command: sh -c 'kong start && tail -f /usr/local/kong/logs/error.log'
+    command: sh -c 'until nc -w 2 kong-database 5432 > /dev/null; do sleep 1; done; kong start && tail -f /usr/local/kong/logs/error.log'
     depends_on:
       - postgres
